@@ -69,12 +69,12 @@ for epoch in range(100):
     loss = 0
     hidden = model.init_hidden()
 
-    sys.stdout.write("predicted string: ")
+    print("predicted string: ", end='')
     for input, label in zip(inputs, labels):
         # print(input.size(), label.size())
         hidden, output = model(hidden, input)
         val, idx = output.max(1)
-        sys.stdout.write(idx2char[idx.data[0]])
+        print(idx2char[idx.data[0]], end='')
         loss += criterion(output, label)
 
     print(", epoch: %d, loss: %1.3f" % (epoch + 1, loss.data[0]))

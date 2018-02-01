@@ -18,6 +18,7 @@ x_one_hot = [[[1, 0, 0, 0, 0],   # h 0
               [0, 0, 0, 1, 0]]]  # l 3
 
 y_data = [1, 0, 2, 3, 3, 4]    # ihello
+print(len(x_one_hot), x_one_hot, '\n', len(y_data), y_data)
 
 # As we have one batch of samples, we will change them to variables only once
 inputs = Variable(torch.Tensor(x_one_hot))
@@ -72,15 +73,14 @@ optimizer = torch.optim.Adam(rnn.parameters(), lr=0.1)
 
 # Train the model
 for epoch in range(100):
-    outputs = rnn(inputs)
     optimizer.zero_grad()
+    outputs = rnn(inputs)
     loss = criterion(outputs, labels)
     loss.backward()
     optimizer.step()
     _, idx = outputs.max(1)
     idx = idx.data.numpy()
     result_str = [idx2char[c] for c in idx.squeeze()]
-    print("epoch: %d, loss: %1.3f" % (epoch + 1, loss.data[0]))
-    print("Predicted string: ", ''.join(result_str))
+    print("epoch: %3d, loss: %1.3f" % (epoch + 1, loss.data[0]), "Predicted:", ''.join(result_str))
 
 print("Learning finished!")
