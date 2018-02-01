@@ -64,14 +64,14 @@ def train(epoch):
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
-        if batch_idx % 10 == 0:
+        if batch_idx % 100 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.data[0]))
 
 
-def test():
-    model.eval()
+def my_test():
+    #model.eval()
     test_loss = 0
     correct = 0
     for data, target in test_loader:
@@ -89,6 +89,6 @@ def test():
         100. * correct / len(test_loader.dataset)))
 
 
-for epoch in range(1, 10):
+for epoch in range(1, 2):
     train(epoch)
-    test()
+    my_test()

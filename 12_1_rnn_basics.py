@@ -29,7 +29,7 @@ for one in inputs:
 # Input: (batch, seq_len, input_size) when batch_first=True
 inputs = inputs.view(1, 5, -1)
 out, hidden = cell(inputs, hidden)
-print("sequence input size", inputs.size(), "out size", out.size())
+print("\nsequence input size", inputs.size(), "out size", out.size())
 
 
 # One cell RNN input_dim (4) -> output_dim (2). sequence: 5, batch 3
@@ -37,22 +37,28 @@ print("sequence input size", inputs.size(), "out size", out.size())
 # rank = (3, 5, 4)
 inputs = Variable(torch.Tensor([[h, e, l, l, o],
                                 [e, o, l, l, l],
+                                [e, o, l, l, l],
+                                [e, o, l, l, l],
+                                [e, o, l, l, l],
+                                [e, o, l, l, l],
                                 [l, l, e, e, l]]))
 
 # Propagate input through RNN
 # Input: (batch, seq_len, input_size) when batch_first=True
 # B x S x I
 out, hidden = cell(inputs, hidden)
-print("batch input size", inputs.size(), "out size", out.size())
+print("\nbatch input size", inputs.size(), "out size", out.size())
 
 
 # One cell RNN input_dim (4) -> output_dim (2)
-cell = nn.RNN(input_size=4, hidden_size=2)
+cell = nn.RNN(input_size=4, hidden_size=2, batch_first=False)
 
 # The given dimensions dim0 and dim1 are swapped.
-inputs = inputs.transpose(3, dim1=1, dim2=2)
+inputs = inputs.transpose(dim1=1, dim2=0)
+print(inputs)
+
 # Propagate input through RNN
 # Input: (seq_len, batch_size, input_size) when batch_first=False (default)
 # S x B x I
 out, hidden = cell(inputs, hidden)
-print("batch input size", inputs.size(), "out size", out.size())
+print("\nbatch input size", inputs.size(), "out size", out.size())

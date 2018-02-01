@@ -14,6 +14,7 @@ import numpy as np
 # 2: 0 0 1
 Y = np.array([1, 0, 0])
 
+
 Y_pred1 = np.array([0.7, 0.2, 0.1])
 Y_pred2 = np.array([0.1, 0.3, 0.6])
 print("loss1 = ", np.sum(-Y * np.log(Y_pred1)))
@@ -26,6 +27,7 @@ loss = nn.CrossEntropyLoss()
 # each element in target has to have 0 <= value < nClasses (0-2)
 # Input is class, not one-hot
 Y = Variable(torch.LongTensor([0]), requires_grad=False)
+Z = Variable(torch.LongTensor([[[[6]]]]), requires_grad=True)
 
 # input is of size nBatch x nClasses = 1 x 4
 # Y_pred are logits (not softmax)
@@ -34,11 +36,13 @@ Y_pred2 = Variable(torch.Tensor([[0.5, 2.0, 0.3]]))
 
 l1 = loss(Y_pred1, Y)
 l2 = loss(Y_pred2, Y)
+# l1 = loss(Y, Y_pred1) # cannot change the positions of the y_true and y_pred!
+# l2 = loss(Y, Y_pred2)
 
-print("PyTorch Loss1 = ", l1.data, "\nPyTorch Loss2=", l2.data)
+print("PyTorch Loss1 = ", l1.data[0], "PyTorch Loss2=", l2.data[0])
 
-print("Y_pred1=", torch.max(Y_pred1.data, 1)[1])
-print("Y_pred2=", torch.max(Y_pred2.data, 1)[1])
+print("Y_pred1=", torch.max(Y_pred1.data, 1)[1][0])
+print("Y_pred2=", torch.max(Y_pred2.data, 1)[1][0])
 
 # target is of size nBatch
 # each element in target has to have 0 <= value < nClasses (0-2)
@@ -59,4 +63,4 @@ Y_pred2 = Variable(torch.Tensor([[0.8, 0.2, 0.3],
 l1 = loss(Y_pred1, Y)
 l2 = loss(Y_pred2, Y)
 
-print("Batch Loss1 = ", l1.data, "\nBatch Loss2=", l2.data)
+print("Batch Loss1 = ", l1.data[0], "\nBatch Loss2=", l2.data[0])
