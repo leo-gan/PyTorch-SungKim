@@ -55,10 +55,11 @@ cell = nn.RNN(input_size=4, hidden_size=2, batch_first=False)
 
 # The given dimensions dim0 and dim1 are swapped.
 inputs = inputs.transpose(dim1=1, dim2=0)
-print(inputs)
+hidden = (Variable(torch.randn(inputs.size()[0], 1, 2)))
+print('BEFORE RNN: input size:', inputs.size(), 'hidden size:', hidden.size())
 
 # Propagate input through RNN
 # Input: (seq_len, batch_size, input_size) when batch_first=False (default)
 # S x B x I
 out, hidden = cell(inputs, hidden)
-print("\nbatch input size", inputs.size(), "out size", out.size())
+print("AFTER RNN: input size:", inputs.size(), 'hidden size:', hidden.size(), "out size:", out.size())
